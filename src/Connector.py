@@ -1,14 +1,18 @@
 import signal
-
+from src.ImageHandler import ImageHandler
 
 class Connector:
     """
     Connector class responsible for creating object for correct
     interaction between Robotino REST and Python software.
     """
-    def __init__(self, robotino_ip: str = "192.168.0.1:80"):
-        self.robotino_ip = robotino_ip
+
+    def __init__(self, robotino_ip: str = "192.168.0.1:80", params: dict = {'sid': 'default_setup'}):
+        self.robotino_ip = "http://" + robotino_ip
+        self.params = params
         self.run = True
+        self.image_handler: ImageHandler
+        self.drive_handler = None
 
     def signal_handler(self, sig, frame):
         """
@@ -27,14 +31,12 @@ class Connector:
         """
         signal.signal(signal.SIGINT, self.signal_handler)
 
-    @staticmethod
-    def init_image_handler():
+    def init_image_handler(self):
         """
         Initialization of ImageHandler class
         :return: ImageHandler class
         """
-        image_handler = None
-        return image_handler
+        self.image_handler = ImageHandler(robotino_ip=self.robotino_ip, params=self.params)
 
     @staticmethod
     def init_drive_handler():
