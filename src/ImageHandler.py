@@ -79,11 +79,20 @@ class ImageHandler:
         :return: Initial point and output point coordinates
         """
         cards_coordinates = []
+        out_coords = self.INITIAL_POINT
         for i in range(0, len(cnts)):
             vx, vy, x, y = cv2.fitLine(cnts[i], cv2.DIST_L2, 0, 0.2, 0.1)
-            if y > 80 and y < 300 and x > 150:
+            if y > 70 and y < 100 and x > 200:
                 cards_coordinates.append((x, y))
-                out_coords = min(cards_coordinates, key=lambda x: x[1])
+                out_coords = min(cards_coordinates, key=lambda x: x[0]**2 + x[1]**2)
+                # out_coords = min(cards_coordinates)
+        if out_coords == self.INITIAL_POINT:
+            for i in range(0, len(cnts)):
+                vx, vy, x, y = cv2.fitLine(cnts[i], cv2.DIST_L2, 0, 0.2, 0.1)
+                if (x > 430 and y > 30):
+                    cards_coordinates.append((x, y))
+                    out_coords = min(cards_coordinates, key=lambda x: x[0]**2 + x[1]**2)
+                    # out_coords = min(cards_coordinates)
 
         return [self.INITIAL_POINT, out_coords]
 
@@ -95,6 +104,7 @@ class ImageHandler:
         :return: drew image
         """
         for cards_coordinate in cards_coordinates:
+            print(cards_coordinates)
             cv2.circle(image, (int(cards_coordinate[0]), int(cards_coordinate[1])), 5, (255, 255, 0), -1)
         return image
 
@@ -132,7 +142,7 @@ class ImageHandler:
             self._draw_points(cards_coordinates=self._find_coordinates(cnt), image=image)
             cv2.imshow('image', image)
             cv2.waitKey(1)
-            time.sleep(0.2)
+            time.sleep(0.1)
             if cv2.waitKey(25) == ord('q'):
                 # do not close window, you want to show the frame
                 cv2.destroyAllWindows()
