@@ -13,10 +13,9 @@ class DriveHandler:
         self.OMNIDRIVE_PATH = "/data/omnidrive"
         self.BUMPER_PATH = "/data/bumper"
 
-        self.ADDRRES_PREAMBLE = "http://"
 
-        self.omnidrive_url = self.ADDRRES_PREAMBLE + robotino_ip + self.OMNIDRIVE_PATH
-        self.bumper_url = self.ADDRRES_PREAMBLE + robotino_ip +  self.BUMPER_PATH
+        self.omnidrive_url = robotino_ip + self.OMNIDRIVE_PATH
+        self.bumper_url = robotino_ip +  self.BUMPER_PATH
         self.params = params
 
     def set_speed(self, vel_x, vel_y, vel_w):

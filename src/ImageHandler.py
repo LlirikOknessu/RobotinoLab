@@ -109,7 +109,7 @@ class ImageHandler:
         out_coords = ((out_pix_point[0] * 0.0035) - 0.56, (out_pix_point[1] - 32) * 0.0011475)
         x = out_coords[0]
         y = out_coords[1]
-        theta = math.atan(x / y)
+        theta = math.atan(y / x)
         return x, y, theta
 
     def _parse_image(self, image) -> (float, float, float):
