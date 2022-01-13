@@ -106,9 +106,9 @@ class ImageHandler:
                 y: y coordinate in meters,
                 theta: a numeric value between -PI/2 and PI/2 radians
         """
-        out_coords = ((out_pix_point[0] * 0.0035) - 0.56, (out_pix_point[1] - 32) * 0.0011475)
-        x = out_coords[0]
-        y = out_coords[1]
+        out_coords = ((out_pix_point[0] * 0.0035) - 1.12, (out_pix_point[1] - 32) * 0.0011475)
+        y = out_coords[0]
+        x = out_coords[1]
         theta = math.atan(y / x)
         return x, y, theta
 
@@ -116,7 +116,6 @@ class ImageHandler:
         cnt, th_image, adapt_thresh_image = self._find_contours(image)
         points = self._find_coordinates(cnt)
         out_pix_point = points[1]
-        print(out_pix_point)
         return self._get_points(out_pix_point)
 
     def get_out_point_coords(self, video_show: bool = False) -> (float, float, float):
